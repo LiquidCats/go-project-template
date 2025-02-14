@@ -1,0 +1,15 @@
+x-common-env: &cenv
+  GOMAXPROCS: 1
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile:
+    volumes:
+      - .:/app
+      - /app/tmp
+    ports:
+      - "8088:8088"
+    # Optional: restart policy for development
+    restart: always
