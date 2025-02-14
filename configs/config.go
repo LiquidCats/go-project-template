@@ -23,5 +23,5 @@ type RedisConfig struct {
 	Host     string `yaml:"host" envconfig:"HOST"`
 	Port     string `yaml:"port" envconfig:"PORT"`
 	DB       int    `yaml:"db" envconfig:"DB"`
-	Password string `yaml:"password" envconfig:"PASSWORD"`
+	Password string `yaml:"password,omitempty" envconfig:"PASSWORD,omitempty"`
 }

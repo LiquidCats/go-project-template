@@ -1,11 +1,23 @@
 x-common-env: &cenv
   GOMAXPROCS: 1
+  APP_POSTGRES_HOST: postgres
+  APP_POSTGRES_PORT: 5432
+  APP_POSTGRES_USER: app_db_user
+  APP_POSTGRES_PASSWORD: app_db_secret
+  APP_POSTGRES_DATABASE: app_db
+  #
+  APP_REDIS_HOST: redis
+  APP_REDIS_PORT: 6379
+  APP_REDIS_DB: 0
+
 
 services:
   app:
     build:
       context: .
-      dockerfile:
+      dockerfile: Dockerfile.dev
+    environment:
+      <<: *cenv
     volumes:
       - .:/app
       - /app/tmp
@@ -13,3 +25,19 @@ services:
       - "8088:8088"
     # Optional: restart policy for development
     restart: always
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: app_db_user
+      POSTGRES_PASSWORD: app_db_secret
+      POSTGRES_DB: app_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data \
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
